@@ -1,0 +1,143 @@
+index.html:
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Basic Calculator</title>
+</head>
+
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="buttons" onclick="handleButtonClick(event)">
+            <button class="operator">+</button>
+            <button class="operator">-</button>
+            <button class="operator">*</button>
+            <button class="operator">/</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button class="operator">C</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button class="equals">=</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="clear">0</button>
+            <button>.</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+
+styles.css:
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.calculator {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#display {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.5em;
+    border: none;
+    outline: none;
+    text-align: right;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+}
+
+button.clear {
+    grid-column: span 2;
+}
+
+button.equals {
+    background-color: #4caf50;
+    color: white;
+}
+
+button.operator {
+    background-color: #ffa500;
+    color: white;
+}
+
+
+script.js:
+
+document.addEventListener('DOMContentLoaded', function () {
+    let display = document.getElementById('display');
+    let buttons = document.querySelector('.buttons');
+
+    let currentInput = '';
+
+    buttons.addEventListener('click', handleButtonClick);
+
+    function handleButtonClick(event) {
+        const buttonValue = event.target.innerText;
+
+        if (buttonValue === 'C') {
+            clearDisplay();
+        } else if (buttonValue === '=') {
+            calculateResult();
+        } else {
+            updateDisplay(buttonValue);
+        }
+    }
+
+    function updateDisplay(value) {
+        currentInput += value;
+        display.value = currentInput;
+    }
+
+    function clearDisplay() {
+        currentInput = '';
+        display.value = '';
+    }
+
+    function calculateResult() {
+        try {
+            currentInput = eval(currentInput);
+            display.value = currentInput;
+        } catch (error) {
+            display.value = 'Error';
+        }
+    }
+});
